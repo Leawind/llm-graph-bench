@@ -1,0 +1,37 @@
+// 图的邻接表表示：键为起始节点ID，值为目标节点ID数组
+export type AdjacencyList = Record<string, string[]>;
+
+// 测试用例接口
+export interface TestCase {
+  id: number;
+  graph: AdjacencyList;
+  startNode: string;
+  endNode: string;
+  // 预计算的标准答案路径（用于验证最优性或作为参考）
+  validPaths: string[][];
+}
+
+// 模型响应解析结果
+export interface ParsedResponse {
+  success: boolean;
+  path?: string[];
+  errorType?: "FORMAT_ERROR" | "JSON_PARSE_ERROR";
+  rawOutput: string;
+}
+
+// 单次评估结果
+export interface EvaluationResult {
+  testCaseId: number;
+  isCorrect: boolean;
+  hasHallucination: boolean; // 是否包含图中不存在的边
+  hallucinatedEdges: [string, string][];
+  executionTimeMs: number;
+  parsedResponse: ParsedResponse;
+}
+
+// LLM 配置
+export interface LLMConfig {
+  apiKey: string;
+  baseUrl: string;
+  model: string;
+}
