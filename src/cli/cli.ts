@@ -1,10 +1,10 @@
 import "@std/dotenv/load";
 import { Command } from "commander";
 
-import { generateTestCase } from "./GraphGenerator.ts";
-import { PromptBuilder } from "./PromptBuilder.ts";
-import { Evaluator } from "./Evaluator.ts";
-import type { EvaluationResult } from "./types.ts";
+import { generateTestCase } from "../GraphGenerator.ts";
+import { PromptBuilder } from "../PromptBuilder.ts";
+import { Evaluator } from "../Evaluator.ts";
+import type { EvaluationResult } from "../types.ts";
 
 const decoder = new TextDecoder();
 const stdinReader = Deno.stdin.readable.getReader();
