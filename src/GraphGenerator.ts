@@ -19,38 +19,6 @@ function generateNodeIds(count: number): string[] {
   return [...ids];
 }
 
-function findAllPaths(
-  graph: AdjacencyList,
-  start: string,
-  end: string,
-  maxDepth: number,
-  maxPaths: number = 50,
-): string[][] {
-  const paths: string[][] = [];
-  const stack: { node: string; path: string[] }[] = [
-    { node: start, path: [start] },
-  ];
-
-  while (stack.length > 0 && paths.length < maxPaths) {
-    const { node, path } = stack.pop()!;
-
-    if (node === end) {
-      paths.push(path);
-      continue;
-    }
-
-    if (path.length >= maxDepth) continue;
-
-    const neighbors = graph[node] || [];
-    for (const neighbor of neighbors) {
-      if (!path.includes(neighbor)) {
-        stack.push({ node: neighbor, path: [...path, neighbor] });
-      }
-    }
-  }
-  return paths;
-}
-
 /**
  * 生成一个随机的有向图测试用例
  * @param numNodes 节点总数
@@ -111,14 +79,10 @@ export function generateTestCase(numNodes: number, density: number): TestCase {
     }
   }
 
-  // 3. 计算部分有效路径供参考（限制数量和深度防爆炸）
-  const validPaths = findAllPaths(adjList, startNode, endNode, numNodes + 2, 50);
-
   return {
-    id: Date.now(),
+    id: crypto.randomUUID(),
     graph: adjList,
     startNode,
     endNode,
-    validPaths,
   };
 }

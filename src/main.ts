@@ -8,7 +8,7 @@ import type { EvaluationResult } from "./types.ts";
 
 const llmClient = new LLMClient({
   apiKey: Deno.env.get("LLM_API_KEY") || "",
-  baseUrl: Deno.env.get("LLM_BASE_URL") || "http://192.168.31.149:1234/v1",
+  baseUrl: Deno.env.get("LLM_BASE_URL") || "",
   model: Deno.env.get("LLM_MODEL") || "qwen3.5-4b",
 });
 

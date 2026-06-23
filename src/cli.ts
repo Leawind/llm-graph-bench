@@ -74,8 +74,8 @@ async function main() {
   const program = new Command();
 
   program
-    .name("manual")
-    .description("LLM 图路径规划手动测试工具")
+    .name("cli")
+    .description("LLM 图路径规划交互式测试工具")
     .option("-n, --nodes <n>", "每轮图的节点数", "10")
     .option("-d, --density <d>", "边密度 (0-1)", "0.3")
     .option("-r, --rounds <n>", "测试轮数", "5")
