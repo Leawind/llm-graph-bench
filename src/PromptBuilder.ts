@@ -1,4 +1,4 @@
-import type { AdjacencyList } from "./types.ts";
+import type { AdjacencyList } from './types.ts'
 
 export class PromptBuilder {
   static getSystemPrompt(): string {
@@ -8,7 +8,7 @@ export class PromptBuilder {
 1. 只能使用图中明确存在的边。
 2. 路径必须从起点开始，到终点结束。
 3. 仅输出一个标准的 JSON 对象，格式为 {"path": [节点ID列表]}。
-4. 严禁输出任何解释、推理过程或额外文本。`;
+4. 严禁输出任何解释、推理过程或额外文本。`
   }
 
   static getUserPrompt(
@@ -16,7 +16,7 @@ export class PromptBuilder {
     startNode: string,
     endNode: string,
   ): string {
-    const graphJson = JSON.stringify(graph);
+    const graphJson = JSON.stringify(graph)
 
     return `图结构（键为起始节点，值为目标节点数组）：
 ${graphJson}
@@ -24,6 +24,6 @@ ${graphJson}
 起点：${startNode}
 终点：${endNode}
 
-请输出 JSON 结果。`;
+请输出 JSON 结果。`
   }
 }

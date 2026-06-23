@@ -1,22 +1,22 @@
-import type { AdjacencyList, TestCase } from "./types.ts";
+import type { AdjacencyList, TestCase } from './types.ts'
 
 const CHARSET =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
 
 function randomNodeId(): string {
-  let id = "";
+  let id = ''
   for (let i = 0; i < 5; i++) {
-    id += CHARSET[Math.floor(Math.random() * CHARSET.length)];
+    id += CHARSET[Math.floor(Math.random() * CHARSET.length)]
   }
-  return id;
+  return id
 }
 
 function generateNodeIds(count: number): string[] {
-  const ids = new Set<string>();
+  const ids = new Set<string>()
   while (ids.size < count) {
-    ids.add(randomNodeId());
+    ids.add(randomNodeId())
   }
-  return [...ids];
+  return [...ids]
 }
 
 /**
@@ -26,56 +26,54 @@ function generateNodeIds(count: number): string[] {
  * @returns TestCase
  */
 export function generateTestCase(numNodes: number, density: number): TestCase {
-  const nodes = generateNodeIds(numNodes);
-  const adjList: AdjacencyList = {};
+  const nodes = generateNodeIds(numNodes)
+  const adjList: AdjacencyList = {}
 
   // 初始化邻接表
-  nodes.forEach((node) => (adjList[node] = []));
+  nodes.forEach((node) => (adjList[node] = []))
 
-  const startNode = nodes[0];
-  const endNode = nodes[nodes.length - 1];
+  const startNode = nodes[0]
+  const endNode = nodes[nodes.length - 1]
 
   // 1. 确保连通性：生成一条从起点到终点的随机路径
-  let current = startNode;
-  const pathToEnsureConnectivity: string[] = [startNode];
-  const visited = new Set([startNode]);
+  let current = startNode
+  const pathToEnsureConnectivity: string[] = [startNode]
+  const visited = new Set([startNode])
 
   while (current !== endNode) {
-    const nextCandidates = nodes.filter((n) =>
-      !visited.has(n) && n !== current
-    );
+    const nextCandidates = nodes.filter((n) => !visited.has(n) && n !== current)
 
     if (nextCandidates.length === 0) {
       if (!adjList[current].includes(endNode)) {
-        adjList[current].push(endNode);
+        adjList[current].push(endNode)
       }
-      break;
+      break
     }
 
     const next = nextCandidates[
       Math.floor(Math.random() * nextCandidates.length)
-    ];
-    adjList[current].push(next);
-    pathToEnsureConnectivity.push(next);
-    visited.add(next);
-    current = next;
+    ]
+    adjList[current].push(next)
+    pathToEnsureConnectivity.push(next)
+    visited.add(next)
+    current = next
   }
 
   // 2. 添加随机边以增加复杂度
-  const maxEdges = numNodes * (numNodes - 1);
-  const targetEdges = Math.floor(maxEdges * density);
+  const maxEdges = numNodes * (numNodes - 1)
+  const targetEdges = Math.floor(maxEdges * density)
   let addedEdges = Object.values(adjList).reduce(
     (acc, curr) => acc + curr.length,
     0,
-  );
+  )
 
   while (addedEdges < targetEdges) {
-    const from = nodes[Math.floor(Math.random() * numNodes)];
-    const to = nodes[Math.floor(Math.random() * numNodes)];
+    const from = nodes[Math.floor(Math.random() * numNodes)]
+    const to = nodes[Math.floor(Math.random() * numNodes)]
 
     if (from !== to && !adjList[from].includes(to)) {
-      adjList[from].push(to);
-      addedEdges++;
+      adjList[from].push(to)
+      addedEdges++
     }
   }
 
@@ -84,5 +82,5 @@ export function generateTestCase(numNodes: number, density: number): TestCase {
     graph: adjList,
     startNode,
     endNode,
-  };
+  }
 }
